@@ -7,6 +7,40 @@ import {
     type SelectUserPostComment,
 } from '@/database/schema';
 
+
+export const preparedPostsQuery = async function getPosts() {
+  return await db.query.userPostTable.findMany({
+    orderBy: (posts, { desc }) => [desc(posts.createdAt)],
+    with: {
+      user: {
+        columns: {
+          id: true,
+          name: true,
+        },
+      },
+      comments: true,
+    },
+  });
+}
+
+export const preparedPostQuery = async function getPost(postId: number) {
+  return await db.query.userPostTable.findFirst({
+    where: (posts, { eq }) => eq(posts.id, postId),
+    with: {
+      user: {
+        columns: {
+          id: true,
+          name: true,
+        },
+      },
+      comments: true,
+    },
+  });
+}
+
+/**
+ * 아래 코드 구조는 SQLite 스타일
+
 const selectPostBaseQuery = db
     .select({
         id: userPostTable.id,
@@ -51,3 +85,5 @@ export const preparedPostsQuery = selectPostBaseQuery.prepare();
 export const preparedPostQuery = selectPostBaseQuery
     .where(eq(userPostTable.id, sql.placeholder('postId')))
     .prepare();
+
+ */
