@@ -37,3 +37,9 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 docker-compose.yml 경로에서 아래 실행
 docker compose up -d
+
+아래 명령을 입력하면 drizzle.config.ts에 지정한 out 폴더에 sql파일 생성됨
+npx drizzle-kit generate
+
+실제로 테이블 생성
+npx drizzle-kit migrate
